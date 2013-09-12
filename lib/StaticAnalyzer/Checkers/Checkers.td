@@ -192,6 +192,10 @@ def NewDeleteLeaksChecker : Checker<"NewDeleteLeaks">,
   HelpText<"Check for memory leaks. Traces memory managed by new/delete.">, 
   DescFile<"MallocChecker.cpp">;
 
+def OwnershipChecker : Checker<"Ownership">,
+  HelpText<"Check for violations of memory ownership contracts.">,
+  DescFile<"OwnershipChecker.cpp">;
+
 } // end: "alpha.cplusplus"
 
 //===----------------------------------------------------------------------===//

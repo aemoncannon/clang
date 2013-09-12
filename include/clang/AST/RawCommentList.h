@@ -70,7 +70,7 @@ public:
   /// \code /**< stuff */ \endcode
   /// \code /*!< stuff */ \endcode
   bool isTrailingComment() const LLVM_READONLY {
-    assert(isDocumentation());
+//    assert(isDocumentation());
     return IsTrailingComment;
   }
 
