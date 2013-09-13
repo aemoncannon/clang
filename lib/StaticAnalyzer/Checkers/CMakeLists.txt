@@ -55,6 +55,7 @@ add_clang_library(clangStaticAnalyzerCheckers
   ObjCSelfInitChecker.cpp
   ObjCUnusedIVarsChecker.cpp
   OwnershipChecker.cpp
+  TracingChecker.cpp
   PointerArithChecker.cpp
   PointerSubChecker.cpp
   PthreadLockChecker.cpp

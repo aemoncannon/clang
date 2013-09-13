@@ -498,6 +498,10 @@ def LLVMConventionsChecker : Checker<"Conventions">,
 
 let ParentPackage = Debug in {
 
+def TracingChecker : Checker<"Trace">,
+  HelpText<"Print cfg elements.">,
+  DescFile<"TracingChecker.cpp">;
+
 def DominatorsTreeDumper : Checker<"DumpDominators">,
   HelpText<"Print the dominance tree for a given CFG">,
   DescFile<"DebugCheckers.cpp">;
