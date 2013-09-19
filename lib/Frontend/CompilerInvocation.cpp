@@ -281,6 +281,30 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
     }
   }
 
+  // Go through the analyzer header blacklist.
+  for (arg_iterator it = Args.filtered_begin(OPT_analyzer_ignore_headers),
+       ie = Args.filtered_end(); it != ie; ++it) {
+    const Arg *A = *it;
+    A->claim();
+    // We can have a list of comma separated config names, e.g:
+    // '-analyzer-config key1=val1,key2=val2'
+    StringRef headerList = A->getValue();
+    SmallVector<StringRef, 4> headerVals;
+    headerList.split(headerVals, ",");
+    for (unsigned i = 0, e = headerVals.size(); i != e; ++i) {
+      StringRef val = headerVals[i];
+      if (val.empty()) {
+        // TODO(aemon): properly report problem
+        // Diags.Report(SourceLocation(),
+        //              diag::err_analyzer_header_no_value) << headerVals[i];
+        Success = false;
+        break;
+      }
+      printf("Parsed %s", val.str().c_str());
+      Opts.HeaderBlacklist.push_back(val.str());
+    }
+  }
+
   return Success;
 }
 

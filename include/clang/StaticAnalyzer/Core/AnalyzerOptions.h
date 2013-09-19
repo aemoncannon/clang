@@ -123,6 +123,7 @@ public:
 
   /// \brief Pair of checker name and enable/disable.
   std::vector<std::pair<std::string, bool> > CheckersControlList;
+  std::vector<std::string> HeaderBlacklist;
   
   /// \brief A key-value table of use-specified configuration values.
   ConfigTable Config;

@@ -109,6 +109,9 @@ def analyzer_checker_help : Flag<["-"], "analyzer-checker-help">,
 def analyzer_config : Separate<["-"], "analyzer-config">,
   HelpText<"Choose analyzer options to enable">;
 
+def analyzer_ignore_headers : Separate<["-"], "analyzer-ignore-headers">,
+  HelpText<"Ignore headers by prefix.">;
+
 //===----------------------------------------------------------------------===//
 // Migrator Options
 //===----------------------------------------------------------------------===//

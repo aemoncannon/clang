@@ -402,12 +402,28 @@ void AnalysisConsumer::HandleTopLevelDeclInObjCContainer(DeclGroupRef DG) {
 }
 
 void AnalysisConsumer::storeTopLevelDecls(DeclGroupRef DG) {
+  SourceManager &SM = Ctx->getSourceManager();
   for (DeclGroupRef::iterator I = DG.begin(), E = DG.end(); I != E; ++I) {
-
     // Skip ObjCMethodDecl, wait for the objc container to avoid
     // analyzing twice.
     if (isa<ObjCMethodDecl>(*I))
       continue;
+
+    SourceLocation SL = (*I)->getLocation();
+    if (!SM.isInMainFile(SL) && SL.isFileID()) {
+      if (const char* IncludePath = SM.getBufferName(SL)) {
+        StringRef S(IncludePath);
+        bool Ignore = false;
+        for (std::vector<std::string>::const_iterator SI =
+                 Opts->HeaderBlacklist.begin(),
+               E = Opts->HeaderBlacklist.end(); SI != E; ++SI) {
+          if (S.startswith(*SI)) {
+            Ignore = true;
+          }
+        }
+        if (Ignore) continue;
+      }
+    }
 
     LocalTUDecls.push_back(*I);
   }
