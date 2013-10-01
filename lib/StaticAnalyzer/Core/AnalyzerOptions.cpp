@@ -96,6 +96,16 @@ AnalyzerOptions::mayInlineCXXMemberFunction(CXXInlineableMemberKind K) {
   return CXXMemberInliningMode >= K;
 }
 
+bool AnalyzerOptions::headerIsBlacklisted(StringRef IncludePath) {
+  if (HeaderBlacklist.size() == 0) return false;
+  std::vector<std::string>::const_iterator SI =
+      lower_bound(HeaderBlacklist.begin(), HeaderBlacklist.end(),
+                  IncludePath);
+  if (SI != HeaderBlacklist.end() && *SI == IncludePath) return true;
+  if (SI == HeaderBlacklist.begin()) return false;
+  return IncludePath.startswith(*(--SI));
+}
+
 static StringRef toString(bool b) { return b ? "true" : "false"; }
 
 bool AnalyzerOptions::getBooleanOption(StringRef Name, bool DefaultVal) {

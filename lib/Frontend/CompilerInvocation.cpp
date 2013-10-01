@@ -286,8 +286,6 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
        ie = Args.filtered_end(); it != ie; ++it) {
     const Arg *A = *it;
     A->claim();
-    // We can have a list of comma separated config names, e.g:
-    // '-analyzer-config key1=val1,key2=val2'
     StringRef headerList = A->getValue();
     SmallVector<StringRef, 4> headerVals;
     headerList.split(headerVals, ",");
@@ -300,10 +298,10 @@ static bool ParseAnalyzerArgs(AnalyzerOptions &Opts, ArgList &Args,
         Success = false;
         break;
       }
-      printf("Parsed %s", val.str().c_str());
       Opts.HeaderBlacklist.push_back(val.str());
     }
   }
+  std::sort(Opts.HeaderBlacklist.begin(), Opts.HeaderBlacklist.end());
 
   return Success;
 }

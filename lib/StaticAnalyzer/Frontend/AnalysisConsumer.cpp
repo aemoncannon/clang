@@ -413,15 +413,9 @@ void AnalysisConsumer::storeTopLevelDecls(DeclGroupRef DG) {
     if (!SM.isInMainFile(SL) && SL.isFileID()) {
       if (const char* IncludePath = SM.getBufferName(SL)) {
         StringRef S(IncludePath);
-        bool Ignore = false;
-        for (std::vector<std::string>::const_iterator SI =
-                 Opts->HeaderBlacklist.begin(),
-               E = Opts->HeaderBlacklist.end(); SI != E; ++SI) {
-          if (S.startswith(*SI)) {
-            Ignore = true;
-          }
+        if (Opts->headerIsBlacklisted(S)) {
+          continue;
         }
-        if (Ignore) continue;
       }
     }
 

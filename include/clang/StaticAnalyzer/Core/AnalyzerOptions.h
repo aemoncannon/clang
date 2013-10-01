@@ -272,6 +272,8 @@ public:
   /// \sa CXXMemberInliningMode
   bool mayInlineCXXMemberFunction(CXXInlineableMemberKind K);
 
+  bool headerIsBlacklisted(StringRef IncludePath);
+
   /// Returns true if ObjectiveC inlining is enabled, false otherwise.
   bool mayInlineObjCMethod();
 
